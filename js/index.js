@@ -41,7 +41,7 @@ let updateChars = () => {
         let actionsString = ``;
         for(let j = 0; j < current.actionsLeft.length; j++){
             console.log(current.actionsLeft[j]);
-            actionsString = actionsString +  `<img class="gem ${uid}" id="${current.actionsLeft[j]}" src="./fonts/${current.actionsLeft[j]}.png" >`;
+            actionsString = actionsString +  `<img class="gem ${uid}" id="${current.actionsLeft[j]}" src="./fonts/${current.actionsLeft[j]}.png" title="${current.actionsLeft[j]}">`;
         }
         let anytimesString = ``;
             for(let pizza = 0; pizza < current.anytimesLeft; pizza++){
