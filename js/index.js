@@ -38,6 +38,7 @@ let updateChars = () => {
 
 
         let uid = "a" + Math.round(Math.random()* 10000000000);
+        let uidAnytime = "a" + Math.round(Math.random()* 10000000000);
         let actionsString = ``;
         for(let j = 0; j < current.actionsLeft.length; j++){
             console.log(current.actionsLeft[j]);
@@ -45,7 +46,7 @@ let updateChars = () => {
         }
         let anytimesString = ``;
             for(let pizza = 0; pizza < current.anytimesLeft; pizza++){
-                anytimesString += `<img class="anytime" src="./fonts/anytime.png" >`;
+                anytimesString += `<img class="anytime ${uidAnytime}" src="./fonts/anytime.png" >`;
             }
 
 
@@ -73,7 +74,7 @@ let updateChars = () => {
             }
             updateChars();
         });
-        $(`.anytime`).mousedown(function (e) {
+        $(`.${uidAnytime}`).mousedown(function (e) {
             if(e.which === 1){
                 current.anytimesLeft--;
             }
@@ -90,7 +91,7 @@ let updateChars = () => {
             if(e.which === 2){
                 // this.remove();
                 // chars.splice(chars.indexOf(this), 1);
-            } else if(e.which === 1){
+            } else if(e.which === 3){
 
 
                 if(holding.indexOf(16) !== -1){
@@ -184,7 +185,7 @@ $(document).ready(function () {
         }
 
         if(e.keyCode === 67){
-            alert("GOLD CONTROLS: Press g to set gold values. Left click gold count to add gold, right click to subtract. Shift modifies balance by 50, a normal click by 10, and a control click by 5");
+            alert("GOLD CONTROLS: Press g to set gold values. Left click gold count to subtract gold, right click to add. Shift modifies balance by 50, a normal click by 10, and a control click by 5");
             alert("STAMINA CONTROLS: Press s to set max stamina values, middle click stamina to full heal, click to remove 1 stamina, shift click to remove 10 stamina, control click to remove 5 stamina, right click to add 1 stamina, shift+right click to add 10 stamina, ctrl+right click to add 5 stamina");
             alert("GEM CONTROLS: Left click to remove gem, right click to temporarily add. Press R to reset gems for the round, press L or reset gems for the combat encounter")
         }
