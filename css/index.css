@@ -1,0 +1,25 @@
+body{
+    margin-top: 0;
+    background: url("http://urealms.com/img/Background.jpg");
+}
+html{
+    padding: 0;
+}
+.titleBanner{
+    margin-top: 0;
+    display: flex;
+    justify-content: center;
+}
+.buttonWrapper{
+    display: flex;
+    justify-content: center;
+}
+.main{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+.player{
+    cursor: pointer;
+}
