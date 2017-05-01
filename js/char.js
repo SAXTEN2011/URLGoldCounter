@@ -7,6 +7,7 @@ class player{
         this.name = name;
         this.actionsLeft = ["move","normal","once"];
         this.anytimesLeft = 3;
+        this.maxAnytimes = 3;
         this.baseActions = ["move","normal"];
         this.stamina = 0;
         this.maxstamina = 0;

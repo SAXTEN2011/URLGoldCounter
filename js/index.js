@@ -77,6 +77,9 @@ let updateChars = () => {
         $(`.${uidAnytime}`).mousedown(function (e) {
             if(e.which === 1){
                 current.anytimesLeft--;
+            }else if(e.which === 2){
+                current.maxAnytimes++;
+                current.anytimesLeft++;
             }
             updateChars();
         });
@@ -220,7 +223,7 @@ $(document).ready(function () {
                 if(current.actionsLeft.indexOf("once") === -1){
                     current.actionsLeft.push("once");
                 }
-                current.anytimesLeft = 3;
+                current.anytimesLeft = current.maxAnytimes;
             }
             updateChars();
         }
