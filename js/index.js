@@ -38,12 +38,17 @@ let updateChars = () => {
 
 
         let uid = "a" + Math.round(Math.random()* 10000000000);
-        let uidAnytime = "a" + Math.round(Math.random()* 10000000000);
+               let uidAnytime = "a" + Math.round(Math.random()* 10000000000);
         let actionsString = ``;
         for(let j = 0; j < current.actionsLeft.length; j++){
             console.log(current.actionsLeft[j]);
             actionsString = actionsString +  `<img class="gem ${uid}" id="${current.actionsLeft[j]}" src="./fonts/${current.actionsLeft[j]}.png" title="${current.actionsLeft[j]}">`;
         }
+        let anytimesString = ``;
+        for(let pizza = 0; pizza < current.anytimesLeft; pizza++){
+                            anytimesString += `<img class="anytime ${uidAnytime}" src="./fonts/anytime.png" >`;
+        }
+
 
         let limitedsString = ``;
         let UIDS = [];
@@ -61,6 +66,7 @@ let updateChars = () => {
             <h1><span class="playerName">${current.name}:</span><br> ${actionsString} <br>
             
             ${limitedsString}<br>
+            ${anytimesString}<br>
             
             <span class="${current.name}Gold ${color}-text">${current.gold}g</span><br>
              
@@ -222,6 +228,7 @@ $(document).ready(function () {
             alert("GOLD CONTROLS: Press g to set gold values. Left click gold count to subtract gold, right click to add. Shift modifies balance by 50, a normal click by 10, and a control click by 5");
             alert("STAMINA CONTROLS: Press s to set max stamina values, middle click stamina to full heal, click to remove 1 stamina, shift click to remove 10 stamina, control click to remove 5 stamina, right click to add 1 stamina, shift+right click to add 10 stamina, ctrl+right click to add 5 stamina");
             alert("GEM CONTROLS: Left click to remove gem, right click to temporarily add. Press R to reset gems for the round, press L or reset gems for the combat encounter");
+            alert("ANYTIMES CONTROLS: Left click to remove an anytime, middle click to permanantly add an anytime. Press L to reset anytimes");
             alert("LIMITED CONTROLS: Middle click to permanently add a limited. Press L to reset limiteds. Hover over a limited gem to see the card it's attached to")
         }
 
@@ -252,6 +259,7 @@ $(document).ready(function () {
         if(e.keyCode === 76){
             for(let i = 0; i < chars.length; i++) {
                 let current = chars[i];
+                current.anytimesLeft = current.maxAnytimes;
                 for(let p = 0; p < current.limiteds.length; p++){
                     current.limiteds[p].used = false;
                 }
