@@ -82,6 +82,7 @@ let updateChars = () => {
 
                         if(current.limiteds[0].hover === "Default Limited"){
                             current.limiteds.splice(0,1);
+                            $.notify("This gem has replaced the default gem. Any new gems will add to the list", "info");
                         }
                         current.limiteds.push(new Limited(newName));
                     }
