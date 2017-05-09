@@ -217,7 +217,7 @@ $(document).ready(function () {
             alert("GOLD CONTROLS: Press g to set gold values. Left click gold count to subtract gold, right click to add. Shift modifies balance by 50, a normal click by 10, and a control click by 5");
             alert("STAMINA CONTROLS: Press s to set max stamina values, middle click stamina to full heal, click to remove 1 stamina, shift click to remove 10 stamina, control click to remove 5 stamina, right click to add 1 stamina, shift+right click to add 10 stamina, ctrl+right click to add 5 stamina");
             alert("GEM CONTROLS: Left click to remove gem, right click to temporarily add. Press R to reset gems for the round, press L or reset gems for the combat encounter");
-            alert("LIMITED CONTROLS: Middle click to permanently add a limited. Press L to reset limiteds")
+            alert("LIMITED CONTROLS: Middle click to permanently add a limited. Press L to reset limiteds. Hover over a limited gem to see the card it's attached to")
         }
 
 
