@@ -79,6 +79,10 @@ let updateChars = () => {
                 }else if(e.which === 2){
                     let newName = prompt("Enter the name of the card for which you need another limited gem");
                     if(newName !== undefined && newName !== null && newName !== "" && newName!==" "){
+
+                        if(current.limiteds[0].hover === "Default Limited"){
+                            current.limiteds.splice(0,1);
+                        }
                         current.limiteds.push(new Limited(newName));
                     }
 
