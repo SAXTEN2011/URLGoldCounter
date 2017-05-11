@@ -60,7 +60,7 @@ let updateChars = () => {
             }
         }
 
-        let staminaPercentage = current.stamina / current.maxstamina * 100
+        let staminaPercentage = current.stamina / current.maxstamina * 100;
 
 
 
@@ -68,6 +68,7 @@ let updateChars = () => {
             <h4><span class="playerName">${current.name}</span></h4>
             <span style="width: 200px;display:inline-block">
                 <h5><span class="${current.name}Gold ${color}-text">${current.gold}g</span></h5><br>
+                                                <h6 style="display: inline-block">${current.stamina} Stamina</h6>
                 <span class="${current.name}Stamina grey lighten-1" style="width: 200px; height: 20px; display: inline-block; overflow: hidden">
                     <div class="${stamColor}" style="width: ${staminaPercentage}%; height:100%"></div>
                 </span>
@@ -233,7 +234,7 @@ $(document).ready(function () {
     $(document).keydown(function (e) {
         // Don't handle shortcuts if in a modal
         if ($('.modal.open').length !== 0)
-            return
+            return;
 
         if(e.keyCode === 71){
             for(let i = 0; i < chars.length; i++) {
@@ -246,9 +247,9 @@ $(document).ready(function () {
 
         if(e.keyCode === 67){
             if ($('#help_modal').hasClass('open'))
-                $('#help_modal').modal('close')
+                $('#help_modal').modal('close');
             else
-                $('#help_modal').modal('open')
+                $('#help_modal').modal('open');
         }
 
 
@@ -323,6 +324,15 @@ $(document).ready(function () {
 
 
             $.notify("No player with name was found", "info");
+
+        }
+
+        if(e.keyCode === 187 || e.keyCode === 107){
+            if($('#add_player_modal').hasClass('open')){
+                $('#add_player_modal').modal('close');
+            }else{
+                $('#add_player_modal').modal('open');
+            }
 
         }
     })
