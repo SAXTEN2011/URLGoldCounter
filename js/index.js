@@ -228,7 +228,7 @@ $(document).ready(function () {
             alert("GOLD CONTROLS: Press g to set gold values. Left click gold count to subtract gold, right click to add. Shift modifies balance by 50, a normal click by 10, and a control click by 5");
             alert("STAMINA CONTROLS: Press s to set max stamina values, middle click stamina to full heal, click to remove 1 stamina, shift click to remove 10 stamina, control click to remove 5 stamina, right click to add 1 stamina, shift+right click to add 10 stamina, ctrl+right click to add 5 stamina");
             alert("GEM CONTROLS: Left click to remove gem, right click to temporarily add. Press R to reset gems for the round, press L or reset gems for the combat encounter");
-            alert("ANYTIMES CONTROLS: Left click to remove an anytime, middle click to permanantly add an anytime. Press L to reset anytimes");
+            alert("ANYTIMES CONTROLS: Left click to remove an anytime, middle click to permanently add an anytime. Press A to restore an anytime. Pres shift+A to restore all anytimes of a player");
             alert("LIMITED CONTROLS: Middle click to permanently add a limited. Press L to reset limiteds. Hover over a limited gem to see the card it's attached to")
         }
 
@@ -259,12 +259,51 @@ $(document).ready(function () {
         if(e.keyCode === 76){
             for(let i = 0; i < chars.length; i++) {
                 let current = chars[i];
-                current.anytimesLeft = current.maxAnytimes;
+                // current.anytimesLeft = current.maxAnytimes;
                 for(let p = 0; p < current.limiteds.length; p++){
                     current.limiteds[p].used = false;
                 }
             }
             updateChars();
+        }
+
+        if(e.keyCode === 65){
+            let name;
+            if(holding.indexOf(16) === -1){
+                name = prompt("for which player do you wish to reset an anytime?");
+
+
+                for(let i = 0; i < chars.length; i++) {
+                    let current = chars[i];
+                    if(name.toLowerCase() === current.name.toLowerCase()){
+                        current.anytimesLeft = (current.anytimesLeft<current.maxAnytimes) ? current.anytimesLeft + 1 : current.anytimesLeft;
+
+
+                        updateChars();
+                        return;
+                    }
+
+                }
+
+            }else {
+                name = prompt("for which player do you wish to reset ALL anytimes?");
+
+
+                for (let i = 0; i < chars.length; i++) {
+                    let current = chars[i];
+                    if (name.toLowerCase() === current.name.toLowerCase()) {
+                        current.anytimesLeft = current.maxAnytimes;
+
+
+                        updateChars();
+                        return;
+                    }
+
+                }
+            }
+
+
+            alert("No player with name was found");
         }
     })
 });
