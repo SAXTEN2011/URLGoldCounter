@@ -68,7 +68,7 @@ let updateChars = () => {
             <h4><span class="playerName">${current.name}</span></h4>
             <span style="width: 200px;display:inline-block">
                 <h5><span class="${current.name}Gold ${color}-text">${current.gold}g</span></h5><br>
-                <span class="${current.name}Stamina grey lighten-1" style="width: 200px; height: 20px; display: inline-block">
+                <span class="${current.name}Stamina grey lighten-1" style="width: 200px; height: 20px; display: inline-block; overflow: hidden">
                     <div class="${stamColor}" style="width: ${staminaPercentage}%; height:100%"></div>
                 </span>
             </span>
@@ -204,14 +204,17 @@ let updateChars = () => {
 
 
 $(document).ready(function () {
-    $(".addCharBtn").click(function () {
-        let name = prompt("Enter a name for new player");
+    $("#addChar").submit(function () {
+        let name = $('#player_name').val();
         if(name !== undefined && name !== "" && name !== null){
             chars.push(new player(name));
 
             updateChars();
+            $('#add_player_modal').modal('close');
+            $('#player_name').val('');
+            $('#open_add_player_modal').removeClass('pulse');
         }
-
+        return false;
     });
 
 
@@ -221,8 +224,17 @@ $(document).ready(function () {
 
     // Prepare Modals
     $('#help_modal').modal();
+    $('#add_player_modal').modal({
+        ready: function() {
+            $('#player_name').focus();
+        }
+    });
 
     $(document).keydown(function (e) {
+        // Don't handle shortcuts if in a modal
+        if ($('.modal.open').length !== 0)
+            return
+
         if(e.keyCode === 71){
             for(let i = 0; i < chars.length; i++) {
                 let current = chars[i];

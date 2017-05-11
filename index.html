@@ -23,12 +23,23 @@
 </head>
 <body>
 <div class="card horizontal purple darken-4 titleBanner"><h1 class="white-text text-darken-2">URealms Player Tracker</h1></div>
-<div class="buttonWrapper">
-    <button class="btn waves-effect waves-light purple darken-4 addCharBtn" type="submit" name="action">Add Player
-        <i class="material-icons right">add</i>
-    </button>
+<div class="fixed-action-btn">
+    <a id="open_add_player_modal" href="#add_player_modal" class="btn-floating btn-large purple darken-4 pulse">
+        <i class="material-icons">add</i>
+    </a>
 </div>
 <div class="main white-text">
+</div>
+<div id="add_player_modal" class="modal bottom-sheet">
+    <div class="modal-content">
+        <form id="addChar">
+            <div class="input-field">
+              <input id="player_name" type="text">
+              <label for="first_name">Player Name</label>
+            </div>
+            <input type="submit" class="btn-flat waves-effect waves-purple-darken-4" value="Add Player" />
+        </form>
+    </div>
 </div>
 <div id="help_modal" class="modal bottom-sheet">
     <div class="modal-content">

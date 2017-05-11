@@ -31,3 +31,6 @@ html{
     height: 100px !important;
     width: 100px !important;
 }
+.waves-effect.waves-purple-darken-4 .waves-ripple {
+    background-color: #4a148c;
+}
