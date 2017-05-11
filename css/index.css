@@ -14,12 +14,20 @@ html{
     display: flex;
     justify-content: center;
 }
-.main{
-    display: flex;
-    justify-content: center;
-    /*flex-direction: column;*/
-    text-align: center;
-}
 .player{
     cursor: pointer;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    width: 90%;
+}
+.player:not(:last-child){
+    border-bottom: 1px #fff solid;
+}
+.playerName {
+    word-break: break-all;
+}
+.anytime, .gem{
+    height: 100px !important;
+    width: 100px !important;
 }

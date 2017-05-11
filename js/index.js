@@ -60,19 +60,24 @@ let updateChars = () => {
             }
         }
 
+        let staminaPercentage = current.stamina / current.maxstamina * 100
+
 
 
         $(".main").append(`<div class="${current.name} player">
-            <h1><span class="playerName">${current.name}:</span><br> ${actionsString} <br>
-            
-            ${limitedsString}<br>
-            ${anytimesString}<br>
-            
-            <span class="${current.name}Gold ${color}-text">${current.gold}g</span><br>
-             
-             <span class="${current.name}Stamina ${stamColor}-text">${current.stamina} Stamina</span><br>
-             </h1>
-            </div>`);
+            <h4><span class="playerName">${current.name}</span></h4>
+            <span style="width: 200px;display:inline-block">
+                <h5><span class="${current.name}Gold ${color}-text">${current.gold}g</span></h5><br>
+                <span class="${current.name}Stamina grey lighten-1" style="width: 200px; height: 20px; display: inline-block">
+                    <div class="${stamColor}" style="width: ${staminaPercentage}%; height:100%"></div>
+                </span>
+            </span>
+            <span style="display:inline-block">
+                ${actionsString}
+                ${limitedsString}
+                ${anytimesString}
+            </span>
+        </div>`);
 
         for(let Ui = 0 ; Ui < UIDS.length; Ui++){
             $(`.${UIDS[Ui]}`).mousedown(function (e) {
@@ -305,7 +310,8 @@ $(document).ready(function () {
             }
 
 
-            alert("No player with name was found");
+            $.notify("No player with name was found", "info");
+
         }
     })
 });
