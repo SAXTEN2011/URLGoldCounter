@@ -214,6 +214,9 @@ $(document).ready(function () {
 
 
 
+    // Prepare Modals
+    $('#help_modal').modal();
+
     $(document).keydown(function (e) {
         if(e.keyCode === 71){
             for(let i = 0; i < chars.length; i++) {
@@ -225,11 +228,10 @@ $(document).ready(function () {
         }
 
         if(e.keyCode === 67){
-            alert("GOLD CONTROLS: Press g to set gold values. Left click gold count to subtract gold, right click to add. Shift modifies balance by 50, a normal click by 10, and a control click by 5");
-            alert("STAMINA CONTROLS: Press s to set max stamina values, middle click stamina to full heal, click to remove 1 stamina, shift click to remove 10 stamina, control click to remove 5 stamina, right click to add 1 stamina, shift+right click to add 10 stamina, ctrl+right click to add 5 stamina");
-            alert("GEM CONTROLS: Left click to remove gem, right click to temporarily add. Press R to reset gems for the round, press L or reset gems for the combat encounter");
-            alert("ANYTIMES CONTROLS: Left click to remove an anytime, middle click to permanently add an anytime. Press A to restore an anytime. Pres shift+A to restore all anytimes of a player");
-            alert("LIMITED CONTROLS: Middle click to permanently add a limited. Press L to reset limiteds. Hover over a limited gem to see the card it's attached to")
+            if ($('#help_modal').hasClass('open'))
+                $('#help_modal').modal('close')
+            else
+                $('#help_modal').modal('open')
         }
 
 
