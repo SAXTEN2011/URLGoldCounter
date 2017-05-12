@@ -105,7 +105,7 @@
         </form>
         <form id="addLimitedForm" onsubmit="event.preventDefault(); modalAddLimited($('.modalPlayerName').html())">
             <div class="input-field">
-                <input id="addLimited" type="text" placeholder="Name of card with limited gem">
+                <input id="addLimited" type="text" class="addLimited" placeholder="Name of card with limited gem">
                 <label for="addLimited">Add Limited</label>
             </div>
         </form>
@@ -113,9 +113,6 @@
         <a class="waves-effect waves-light btn rCombat" onclick="resetCombat()">Reset Combat</a>
         <a class="waves-effect waves-light btn rAnytime" onclick="restoreAnytime($('.modalPlayerName').html())">Restore Single Anytime</a><br>
 
-    </div>
-    <div class="modal-footer">
-        <a href="#!" class="modal-action modal-close waves-effect waves-purple darken-4 btn-flat" onclick="$('.maxStaminaInput').val(''); $('.maxGold').val('')">Cancel</a>
     </div>
 </div>
 </body>

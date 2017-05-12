@@ -277,7 +277,14 @@ $(document).ready(function () {
 
     // Prepare Modals
     $('#help_modal').modal();
-    $('#charModal').modal();
+    $('#charModal').modal({
+        complete: function() {
+            $('.maxStaminaInput').val('');
+            $('.maxGold').val('');
+            $('.numAnytimes').val('');
+            $('.addLimited').val('');
+        }
+    });
     $('#add_player_modal').modal({
         ready: function() {
             $('#player_name').focus();
