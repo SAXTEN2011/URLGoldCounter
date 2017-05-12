@@ -55,9 +55,9 @@ let resetRound = function () {
         let someArray = current.baseActions;
         console.log(someArray);
         if(current.actionsLeft.indexOf("once") !== -1){
-            current.actionsLeft = ["move","normal"];
+            current.actionsLeft = ["Move","Regular"];
         }else{
-            current.actionsLeft = ["move","normal"];
+            current.actionsLeft = ["Move","Regular"];
         }
 
     }
@@ -121,11 +121,11 @@ let updateChars = () => {
         let actionsString = ``;
         for(let j = 0; j < current.actionsLeft.length; j++){
             console.log(current.actionsLeft[j]);
-            actionsString = actionsString +  `<img class="gem ${uid}" id="${current.actionsLeft[j]}" src="./fonts/${current.actionsLeft[j]}.png" title="${current.actionsLeft[j]}">`;
+            actionsString = actionsString +  `<img class="gem ${uid} tooltipped" id="${current.actionsLeft[j]}" src="./fonts/${current.actionsLeft[j]}.png" data-position="top" data-delay="0" data-tooltip="${current.actionsLeft[j]}">`;
         }
         let anytimesString = ``;
         for(let pizza = 0; pizza < current.anytimesLeft; pizza++){
-                            anytimesString += `<img class="anytime ${uidAnytime}" src="./fonts/anytime.png" >`;
+                            anytimesString += `<img class="anytime ${uidAnytime} tooltipped" src="./fonts/anytime.png" data-position="top" data-delay="0" data-tooltip="Anytime">`;
         }
 
 
@@ -134,7 +134,7 @@ let updateChars = () => {
         for(let o = 0; o < current.limiteds.length; o++){
             let cur = current.limiteds[o];
             if(!cur.used){
-                limitedsString += `<img class="gem ${cur.UUID}" src="./fonts/once.png" title="${cur.hover}">`;
+                limitedsString += `<img class="gem ${cur.UUID} tooltipped" src="./fonts/once.png" data-position="top" data-delay="0" data-tooltip="${cur.hover}">`;
                 UIDS.push(cur.UUID);
             }
         }
@@ -157,9 +157,8 @@ let updateChars = () => {
                 ${limitedsString}
                 ${anytimesString}
             </span>
-        </div>
-
-`);
+        </div>`);
+        $('.tooltipped').tooltip();
 
 
         for(let Ui = 0 ; Ui < UIDS.length; Ui++){

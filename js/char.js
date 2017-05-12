@@ -5,11 +5,11 @@ class player{
     constructor(name){
         this.gold = 0;
         this.name = name;
-        this.actionsLeft = ["move","normal"];
+        this.actionsLeft = ["Move","Regular"];
         this.limiteds = [];
         this.anytimesLeft = 3;
         this.maxAnytimes = 3;
-        this.baseActions = ["move","normal"];
+        this.baseActions = ["Move","Regular"];
         this.stamina = 0;
         this.maxstamina = 0;
         this.add = (amt) => {
