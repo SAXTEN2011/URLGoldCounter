@@ -5,6 +5,9 @@ body{
 html{
     padding: 0;
 }
+a {
+    cursor: pointer;
+}
 .titleBanner{
     margin-top: 0;
     display: flex;

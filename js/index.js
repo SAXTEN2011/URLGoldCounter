@@ -20,6 +20,17 @@ let openCharModal = function(playerName){
     $("#setAnytimes").attr('placeholder', `Current: ${current.maxAnytimes}`);
     Materialize.updateTextFields();
 
+    let limiteds = $('#limiteds');
+    limiteds.html('');
+    limiteds.toggle(current.limiteds.length !== 0);
+    for (let l = 0; l < current.limiteds.length; l++) {
+        let hover = current.limiteds[l].hover;
+        limiteds.append(`<li id="limited${hover}" class="collection-item"><div>${hover}<a id="delete${hover}" class="secondary-content"><i class="material-icons">delete</i></a></div></li>`)
+        $(`#delete${hover}`).click(function () {
+            deleteLimited(current, hover);
+        });
+    }
+
     $("#charModal").modal("open");
 };
 
@@ -63,6 +74,14 @@ let restoreAnytime = function (pName) {
     }
     updateChars();
 };
+
+let deleteLimited = function (current, limited) {
+    let index = current.limiteds.indexOf(limited);
+    current.limiteds.splice(index, 1);
+    $(`#limited${limited}`).remove();
+    $('#limiteds').toggle(current.limiteds.length !== 0);
+    updateChars();
+}
 
 
 let updateChars = () => {

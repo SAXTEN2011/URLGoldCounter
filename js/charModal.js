@@ -73,11 +73,17 @@ function modalAddLimited(playername) {
             current = chars[p];
         }
     }
-    if($('#addLimited').val() !== "" && $('#addLimited').val() !== undefined && $('#addLimited').val() !== null){
-        current.limiteds.push(new Limited($('#addLimited').val()));
+    var limited = $('#addLimited').val();
+    if(limited !== "" && limited !== undefined && limited !== null){
+        current.limiteds.push(new Limited(limited));
     }
+    let limiteds = $('#limiteds');
+    limiteds.toggle(true);
+    limiteds.append(`<li id="limited${limited}" class="collection-item"><div>${limited}<a id="delete${limited}" class="secondary-content"><i class="material-icons">delete</i></a></div></li>`)
+    $(`#delete${limited}`).click(function () {
+        deleteLimited(current, limited);
+    });
 
-
+    $("#addLimited").val('');
     updateChars();
-    $("#charModal").modal('close');
 }
