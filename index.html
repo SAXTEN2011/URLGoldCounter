@@ -98,6 +98,12 @@
                 <label for="setGold">Set Gold</label>
             </div>
         </form>
+        <form id="setAnytimesForm" onsubmit="event.preventDefault(); modalSetAnytimes($('.modalPlayerName').html())">
+            <div class="input-field">
+                <input id="setAnytimes" type="number" class="numAnytimes">
+                <label for="setAnytimes">Set Maximum Anytimes</label>
+            </div>
+        </form>
         <form id="addLimitedForm" onsubmit="event.preventDefault(); modalAddLimited($('.modalPlayerName').html())">
             <div class="input-field">
                 <input id="addLimited" type="text" placeholder="Name of card with limited gem">

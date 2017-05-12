@@ -17,6 +17,7 @@ let openCharModal = function(playerName){
     $(".modalPlayerName").html(`${current.name}`);
     $("#setMaxStamina").attr('placeholder', `Current: ${current.maxstamina}`);
     $("#setGold").attr('placeholder', `Current: ${current.gold}`);
+    $("#setAnytimes").attr('placeholder', `Current: ${current.maxAnytimes}`);
     Materialize.updateTextFields();
 
     $("#charModal").modal("open");

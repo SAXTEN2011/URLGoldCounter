@@ -24,6 +24,7 @@ function modalSetMaxStam(playername){
     for(let p = 0; p < chars.length; p++){
         if(playername === chars[p].name){
             current = chars[p];
+            break;
         }
     }
     if(!isNaN(parseInt($("#setMaxStamina").val())))
@@ -40,6 +41,7 @@ function modalSetGold(playername){
     for(let p = 0; p < chars.length; p++){
         if(playername === chars[p].name){
             current = chars[p];
+            break;
         }
     }
     if(!isNaN(parseInt($("#setGold").val())))
@@ -48,6 +50,23 @@ function modalSetGold(playername){
 
     $("#charModal").modal('close');
     $("#setGold").val("");
+}
+
+function modalSetAnytimes(playername){
+    "use strict";
+    let current;
+    for(let p = 0; p < chars.length; p++){
+        if(playername === chars[p].name){
+            current = chars[p];
+            break;
+        }
+    }
+    if(!isNaN(parseInt($("#setAnytimes").val())))
+        current.maxAnytimes = parseInt($("#setAnytimes").val());
+    updateChars();
+
+    $("#charModal").modal('close');
+    $("#setAnytimes").val("");
 }
 
 function modalAddLimited(playername) {
