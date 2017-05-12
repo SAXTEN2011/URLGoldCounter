@@ -18,16 +18,17 @@
     <script type="text/javascript" src="js/materialize.min.js"></script>
     <script type="text/javascript" src="js/holdingHandler.js"></script>
     <script type="text/javascript" src="js/char.js"></script>
+    <script type="text/javascript" src="js/charModal.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
 
 </head>
 <body>
-<div class="card horizontal purple darken-4 titleBanner">
+<div class="card horizontal purple darken-3 titleBanner">
     <h1 class="white-text text-darken-2">URealms Player Tracker</h1>
     <a href="#help_modal" style="width: 24px;margin: 10px;"><i class="material-icons">info_outline</i></a>
 </div>
 <div class="fixed-action-btn">
-    <a id="open_add_player_modal" href="#add_player_modal" class="btn-floating btn-large purple pulse">
+    <a id="open_add_player_modal" href="#add_player_modal" class="btn-floating btn-large purple darken-3 pulse">
         <i class="material-icons">add</i>
     </a>
 </div>
@@ -49,6 +50,7 @@
         <h4>Controls</h4>
         <h5>Shortcuts</h5>
         Press + to add a character<br>
+        Click on a players name to open a menu of actions <br>
 
         <h5>Gold Controls</h5>
         Press g to set gold values. <br/>
@@ -66,7 +68,9 @@
 
         <h5>Anytimes Controls</h5>
         Left click to remove an anytime, middle click to permanently add an anytime. <br/>
-        Press A to restore an anytime. Pres shift+A to restore all anytimes of a player. <br/>
+        Press L to restore anytimes
+        More anytime controls can be found by clicking a players name
+        <br/>
 
         <h5>Limited Controls</h5>
         Middle click to permanently add a limited. <br/>
@@ -76,6 +80,37 @@
         <hr>
         <h4>About this project</h4>
         This is an open source project to assist people running campaigns using the <a href="https://www.urealms.com/">urealms</a> roleplaying engine. You can check out the source code and contribute to the project on <a href="https://github.com/SAXTEN2011/URLGoldCounter">github</a>.
+    </div>
+</div>
+
+<div id="charModal" class="modal">
+    <div class="modal-content defaultState">
+        <h4 class="modalPlayerName">null</h4>
+        <form id="setMaxStamForm" onsubmit="event.preventDefault(); modalSetMaxStam($('.modalPlayerName').html())">
+            <div class="input-field">
+                <input id="setMaxStamina" type="number" class="maxStaminaInput">
+                <label for="setMaxStamina">Set Maximum Stamina</label>
+            </div>
+        </form>
+        <form id="setGoldForm" onsubmit="event.preventDefault(); modalSetGold($('.modalPlayerName').html())">
+            <div class="input-field">
+                <input id="setGold" type="number" class="maxGold">
+                <label for="setGold">Set Gold</label>
+            </div>
+        </form>
+        <a class="waves-effect waves-light btn rRound" onclick="resetRound()">Reset Round</a>
+        <a class="waves-effect waves-light btn rCombat" onclick="resetCombat()">Reset Combat</a>
+        <a class="waves-effect waves-light btn rAnytime" onclick="restoreAnytime($('.modalPlayerName').html())">Restore Single Anytime</a><br>
+        <form id="addLimitedForm" onsubmit="event.preventDefault(); modalAddLimited($('.modalPlayerName').html())">
+            <div class="input-field">
+                <input id="addLimited" type="text">
+                <label for="addLimited">Add Limited - Name of card with limited gem</label>
+            </div>
+        </form>
+
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-action modal-close waves-effect waves-purple darken-4 btn-flat" onclick="$('.maxStaminaInput').val(''); $('.maxGold').val('')">Cancel</a>
     </div>
 </div>
 </body>
