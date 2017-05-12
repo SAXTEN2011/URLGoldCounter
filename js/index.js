@@ -28,6 +28,7 @@ let resetCombat = function () {
     for(let i = 0; i < chars.length; i++) {
         let current = chars[i];
         current.anytimesLeft = current.maxAnytimes;
+        current.stamina = current.maxstamina;
         for(let p = 0; p < current.limiteds.length; p++){
             current.limiteds[p].used = false;
         }
