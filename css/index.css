@@ -37,3 +37,7 @@ a {
 .waves-effect.waves-purple-darken-4 .waves-ripple {
     background-color: #4a148c;
 }
+.btn-floating img {
+    height: auto;
+    width: 40px;
+}

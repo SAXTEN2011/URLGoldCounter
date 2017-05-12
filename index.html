@@ -47,9 +47,17 @@
     <a href="#help_modal" style="width: 24px;margin: 10px;"><i class="material-icons">info_outline</i></a>
 </div>
 <div class="fixed-action-btn">
-    <a id="open_add_player_modal" href="#add_player_modal" class="btn-floating btn-large purple darken-3 pulse">
+    <a id="open_add_player_modal" href="#add_player_modal" class="btn-floating btn-large purple darken-3 pulse tooltipped" data-position="left" data-delay="0" data-tooltip="Add Player">
         <i class="material-icons">add</i>
     </a>
+    <ul>
+        <li><a href="javascript:resetCombat();" class="btn-floating green tooltipped" data-position="left" data-delay="0" data-tooltip="Reset Combat">
+            <img src="fonts/combat.png"></img>
+        </a></li>
+        <li><a href="javascript:resetRound();" class="btn-floating yellow tooltipped" data-position="left" data-delay="0" data-tooltip="Reset Round">
+        <img src="fonts/round.png" style="margin-top: 4px;"></img>
+        </a></li>
+    </ul>
 </div>
 <div class="main white-text">
 </div>
@@ -72,12 +80,10 @@
         Click on a players name to open a menu of actions. <br>
 
         <h5>Gold Controls</h5>
-        Press g to set gold values. <br/>
         Left click gold count to subtract gold, right click to add. <br/>
         Shift modifies balance by 50, a normal click by 10, and a control click by 5. <br/>
 
         <h5>Stamina Controls</h5>
-        Press s to set max stamina values, middle click stamina to full heal. <br/>
         Click to remove 1 stamina, shift click to remove 10 stamina, control click to remove 5 stamina. <br/>
         Right click to add 1 stamina, shift+right click to add 10 stamina, ctrl+right click to add 5 stamina. <br/>
 

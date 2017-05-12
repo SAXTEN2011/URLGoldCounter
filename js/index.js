@@ -334,23 +334,6 @@ $(document).ready(function () {
                 $('#help_modal').modal('open');
         }
 
-        if(e.keyCode === 71){
-            for(let i = 0; i < chars.length; i++) {
-                let current = chars[i];
-
-                current.gold = parseInt(prompt(`Set gold for ${current.name}, currently ${current.gold}g`));
-            }
-            updateChars();
-        }
-
-        if(e.keyCode === 83){
-            for(let i = 0; i < chars.length; i++) {
-                let current = chars[i];
-
-                current.maxstamina = parseInt(prompt(`Set MAXIMUM stamina for ${current.name}, currently ${current.maxstamina}`));
-            }
-            updateChars();
-        }
         if(e.keyCode === 82){
             resetRound();
         }
