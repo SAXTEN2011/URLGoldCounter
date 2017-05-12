@@ -233,8 +233,15 @@ $(document).ready(function () {
 
     $(document).keydown(function (e) {
         // Don't handle shortcuts if in a modal
-        if ($('.modal.open').length !== 0)
+        if ($('.modal.open').not('#help_modal').length !== 0)
             return;
+
+        if(e.keyCode === 67){
+            if ($('#help_modal').hasClass('open'))
+                $('#help_modal').modal('close');
+            else
+                $('#help_modal').modal('open');
+        }
 
         if(e.keyCode === 71){
             for(let i = 0; i < chars.length; i++) {
@@ -244,14 +251,6 @@ $(document).ready(function () {
             }
             updateChars();
         }
-
-        if(e.keyCode === 67){
-            if ($('#help_modal').hasClass('open'))
-                $('#help_modal').modal('close');
-            else
-                $('#help_modal').modal('open');
-        }
-
 
         if(e.keyCode === 83){
             for(let i = 0; i < chars.length; i++) {
