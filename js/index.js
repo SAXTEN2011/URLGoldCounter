@@ -232,6 +232,16 @@ $(document).ready(function () {
     });
 
     $(document).keydown(function (e) {
+        if(e.keyCode === 187 || e.keyCode === 107){
+            if($('#add_player_modal').hasClass('open')){
+                $('#add_player_modal').modal('close');
+            }else{
+                $('#add_player_modal').modal('open');
+            }
+            e.preventDefault();
+            return;
+        }
+
         // Don't handle shortcuts if in a modal
         if ($('.modal.open').not('#help_modal').length !== 0)
             return;
