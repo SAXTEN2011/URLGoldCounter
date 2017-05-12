@@ -6,7 +6,7 @@ class player{
         this.gold = 0;
         this.name = name;
         this.actionsLeft = ["move","normal"];
-        this.limiteds = [new Limited("Default Limited")];
+        this.limiteds = [];
         this.anytimesLeft = 3;
         this.maxAnytimes = 3;
         this.baseActions = ["move","normal"];
