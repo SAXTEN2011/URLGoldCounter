@@ -8,15 +8,18 @@ let anytimesString;
 
 let openCharModal = function(playerName){
     let current;
-    let mod = $("#charModal");
     for(let p = 0; p < chars.length; p++){
         if(playerName === chars[p].name){
             current = chars[p];
+            break;
         }
     }
     $(".modalPlayerName").html(`${current.name}`);
+    $("#setMaxStamina").attr('placeholder', `Current: ${current.maxstamina}`);
+    $("#setGold").attr('placeholder', `Current: ${current.gold}`);
+    Materialize.updateTextFields();
 
-    mod.modal("open");
+    $("#charModal").modal("open");
 };
 
 

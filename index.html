@@ -98,15 +98,15 @@
                 <label for="setGold">Set Gold</label>
             </div>
         </form>
+        <form id="addLimitedForm" onsubmit="event.preventDefault(); modalAddLimited($('.modalPlayerName').html())">
+            <div class="input-field">
+                <input id="addLimited" type="text" placeholder="Name of card with limited gem">
+                <label for="addLimited">Add Limited</label>
+            </div>
+        </form>
         <a class="waves-effect waves-light btn rRound" onclick="resetRound()">Reset Round</a>
         <a class="waves-effect waves-light btn rCombat" onclick="resetCombat()">Reset Combat</a>
         <a class="waves-effect waves-light btn rAnytime" onclick="restoreAnytime($('.modalPlayerName').html())">Restore Single Anytime</a><br>
-        <form id="addLimitedForm" onsubmit="event.preventDefault(); modalAddLimited($('.modalPlayerName').html())">
-            <div class="input-field">
-                <input id="addLimited" type="text">
-                <label for="addLimited">Add Limited - Name of card with limited gem</label>
-            </div>
-        </form>
 
     </div>
     <div class="modal-footer">
