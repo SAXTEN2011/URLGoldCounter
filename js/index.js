@@ -5,6 +5,61 @@
 let chars = [];
 
 let anytimesString;
+
+let openCharModal = function(playerName){
+    let current;
+    let mod = $("#charModal");
+    for(let p = 0; p < chars.length; p++){
+        if(playerName === chars[p].name){
+            current = chars[p];
+        }
+    }
+    $(".modalPlayerName").html(`${current.name}`);
+
+    mod.modal("open");
+};
+
+
+let resetCombat = function () {
+    for(let i = 0; i < chars.length; i++) {
+        let current = chars[i];
+        current.anytimesLeft = current.maxAnytimes;
+        for(let p = 0; p < current.limiteds.length; p++){
+            current.limiteds[p].used = false;
+        }
+    }
+    updateChars();
+};
+
+
+let resetRound = function () {
+    for(let i = 0; i < chars.length; i++) {
+        let current = chars[i];
+        // alert(current.defaults);
+        let someArray = current.baseActions;
+        console.log(someArray);
+        if(current.actionsLeft.indexOf("once") !== -1){
+            current.actionsLeft = ["move","normal"];
+        }else{
+            current.actionsLeft = ["move","normal"];
+        }
+
+    }
+    updateChars();
+};
+
+let restoreAnytime = function (pName) {
+    let current;
+    for(let i = 0; i < chars.length; i++) {
+        if(chars[i].name === pName){
+            if(chars[i].maxAnytimes > chars[i].anytimesLeft)
+            chars[i].anytimesLeft++;
+        }
+    }
+    updateChars();
+};
+
+
 let updateChars = () => {
     "use strict";
     $(".main").html("");
@@ -65,7 +120,7 @@ let updateChars = () => {
 
 
         $(".main").append(`<div class="${current.name} player">
-            <h4><span class="playerName">${current.name}</span></h4>
+            <h4 onclick="openCharModal('${current.name}')"><span class="playerName">${current.name}</span></h4>
             <span style="width: 200px;display:inline-block">
                 <h5><span class="${current.name}Gold ${color}-text">${current.gold}g</span></h5><br>
                                                 <h6 style="display: inline-block">${current.stamina} Stamina</h6>
@@ -78,7 +133,10 @@ let updateChars = () => {
                 ${limitedsString}
                 ${anytimesString}
             </span>
-        </div>`);
+        </div>
+
+`);
+
 
         for(let Ui = 0 ; Ui < UIDS.length; Ui++){
             $(`.${UIDS[Ui]}`).mousedown(function (e) {
@@ -105,6 +163,8 @@ let updateChars = () => {
                 updateChars();
             });
         }
+
+
 
         $(`.${uid}`).mousedown(function (e) {
             // alert("Clicked?");
@@ -225,11 +285,13 @@ $(document).ready(function () {
 
     // Prepare Modals
     $('#help_modal').modal();
+    $('#charModal').modal();
     $('#add_player_modal').modal({
         ready: function() {
             $('#player_name').focus();
         }
     });
+
 
     $(document).keydown(function (e) {
         if(e.keyCode === 187 || e.keyCode === 107){
@@ -271,69 +333,10 @@ $(document).ready(function () {
             updateChars();
         }
         if(e.keyCode === 82){
-            for(let i = 0; i < chars.length; i++) {
-                let current = chars[i];
-                // alert(current.defaults);
-                let someArray = current.baseActions;
-                console.log(someArray);
-                if(current.actionsLeft.indexOf("once") !== -1){
-                    current.actionsLeft = ["move","normal"];
-                }else{
-                    current.actionsLeft = ["move","normal"];
-                }
-
-            }
-            updateChars();
+            resetRound();
         }
         if(e.keyCode === 76){
-            for(let i = 0; i < chars.length; i++) {
-                let current = chars[i];
-                // current.anytimesLeft = current.maxAnytimes;
-                for(let p = 0; p < current.limiteds.length; p++){
-                    current.limiteds[p].used = false;
-                }
-            }
-            updateChars();
-        }
-
-        if(e.keyCode === 65){
-            let name;
-            if(holding.indexOf(16) === -1){
-                name = prompt("for which player do you wish to reset an anytime?");
-
-
-                for(let i = 0; i < chars.length; i++) {
-                    let current = chars[i];
-                    if(name.toLowerCase() === current.name.toLowerCase()){
-                        current.anytimesLeft = (current.anytimesLeft<current.maxAnytimes) ? current.anytimesLeft + 1 : current.anytimesLeft;
-
-
-                        updateChars();
-                        return;
-                    }
-
-                }
-
-            }else {
-                name = prompt("for which player do you wish to reset ALL anytimes?");
-
-
-                for (let i = 0; i < chars.length; i++) {
-                    let current = chars[i];
-                    if (name.toLowerCase() === current.name.toLowerCase()) {
-                        current.anytimesLeft = current.maxAnytimes;
-
-
-                        updateChars();
-                        return;
-                    }
-
-                }
-            }
-
-
-            $.notify("No player with name was found", "info");
-
+            resetCombat();
         }
     })
 });
