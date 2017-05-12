@@ -325,14 +325,5 @@ $(document).ready(function () {
             $.notify("No player with name was found", "info");
 
         }
-
-        if(e.keyCode === 187 || e.keyCode === 107){
-            if($('#add_player_modal').hasClass('open')){
-                $('#add_player_modal').modal('close');
-            }else{
-                $('#add_player_modal').modal('open');
-            }
-
-        }
     })
 });
