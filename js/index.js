@@ -86,6 +86,7 @@ let deleteLimited = function (current, limited) {
 
 let updateChars = () => {
     "use strict";
+    $('.tooltipped').tooltip('remove');
     $(".main").html("");
     for(let i = 0; i < chars.length; i++){
         let color;
