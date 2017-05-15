@@ -75,6 +75,16 @@ let restoreAnytime = function (pName) {
     updateChars();
 };
 
+let deletePlayer = function (pName) {
+    for(let i = 0; i < chars.length; i++) {
+        if(chars[i].name === pName){
+            chars.splice(i, 1);
+            break;
+        }
+    }
+    updateChars();
+}
+
 let deleteLimited = function (current, limited) {
     let index = current.limiteds.indexOf(limited);
     current.limiteds.splice(index, 1);
