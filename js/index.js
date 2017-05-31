@@ -36,44 +36,65 @@ let openCharModal = function(playerName){
 
 
 let resetCombat = function () {
+    resetRound();
     for(let i = 0; i < chars.length; i++) {
         let current = chars[i];
+        for (let p = 0; p < current.maxAnytimes; p++) {
+            restoreAnytime(current.name, p);
+        }
+        for(let p = 0; p < current.limiteds.length; p++){
+            restoreLimited(current, current.limiteds[p]);
+        }
         current.anytimesLeft = current.maxAnytimes;
         current.stamina = current.maxstamina;
-        for(let p = 0; p < current.limiteds.length; p++){
-            current.limiteds[p].used = false;
-        }
+        updateStamina(current.name);
     }
-    updateChars();
 };
 
 
 let resetRound = function () {
     for(let i = 0; i < chars.length; i++) {
         let current = chars[i];
-        // alert(current.defaults);
-        let someArray = current.baseActions;
-        console.log(someArray);
-        if(current.actionsLeft.indexOf("once") !== -1){
-            current.actionsLeft = ["Move","Regular"];
-        }else{
-            current.actionsLeft = ["Move","Regular"];
+        while (current.numActions > current.baseActions.length)
+            removeGem(current, current.numActions - 1);
+        for (let j = 0; j < current.baseActions.length; j++) {
+            restoreGem(current, j, current.baseActions[j]);
         }
-
     }
-    updateChars();
 };
 
-let restoreAnytime = function (pName) {
+let restoreGem = function (current, gem, name) {
+    $(`.${current.name}gem${gem}`).show();
+    $(`.${current.name}gem${gem}`).animate({
+        width: "100px",
+        height: "100px",
+        margin: 0
+    }, 400);
+}
+
+let restoreAnytime = function (pName, anytime) {
     let current;
     for(let i = 0; i < chars.length; i++) {
         if(chars[i].name === pName){
-            if(chars[i].maxAnytimes > chars[i].anytimesLeft)
-            chars[i].anytimesLeft++;
+            current = chars[i];
         }
     }
-    updateChars();
+    $(`.${pName}anytime${anytime}`).show();
+    $(`.${pName}anytime${anytime}`).animate({
+        width: "100px",
+        height: "100px",
+        margin: 0
+    }, 400);
 };
+
+let restoreLimited = function (current, limited) {
+    $(`#${limited.UUID}`).show();
+    $(`#${limited.UUID}`).animate({
+        width: "100px",
+        height: "100px",
+        margin: 0
+    }, 400);
+}
 
 let deletePlayer = function (pName) {
     for(let i = 0; i < chars.length; i++) {
@@ -82,7 +103,122 @@ let deletePlayer = function (pName) {
             break;
         }
     }
-    updateChars();
+    $(`.${pName}`).delay(200).animate({
+        left: "150%"
+    }, 800, function () {
+        $(this).remove();
+    });
+    $(`.${pName}`).delay(200).fadeOut(800);
+}
+
+let addPlayer = function (pName) {
+    let current;
+    for(let i = 0; i < chars.length; i++) {
+        if(chars[i].name === pName){
+            current = chars[i];
+        }
+    }
+    let actionsString = ``;
+    for(let j = 0; j < current.baseActions.length; j++){
+        actionsString = actionsString +  `<img class="gem ${pName}gem ${pName}gem${j} tooltipped" id="${current.baseActions[j]}" src="./fonts/${current.baseActions[j]}.png" data-position="top" data-delay="0" data-tooltip="${current.baseActions[j]}">`;
+    }
+    let anytimesString = ``;
+    for(let pizza = 0; pizza < current.maxAnytimes; pizza++){
+        anytimesString += `<img class="anytime ${pName}anytime ${pName}anytime${pizza} tooltipped" src="./fonts/anytime.png" data-position="top" data-delay="0" data-tooltip="Anytime">`;
+    }
+
+    let limitedsString = ``;
+    for(let o = 0; o < current.limiteds.length; o++){
+        let cur = current.limiteds[o];
+        limitedsString += `<img class="gem ${cur.UUID} tooltipped" src="./fonts/once.png" data-position="top" data-delay="0" data-tooltip="${cur.hover}">`;
+    }
+    $(".main").append(`<div class="${pName} player">
+        <h4 onclick="openCharModal('${pName}')"><span class="playerName">${pName}</span></h4>
+        <span style="width: 200px;display:inline-block">
+            <h5><span class="${pName}Gold gold">0g</span></h5><h6 class="${pName}StaminaLabel" style="display: inline-block">0 Stamina</h6>
+            <span class="${pName}Stamina grey lighten-1" style="width: 200px; height: 20px; display: inline-block; overflow: hidden">
+                <div style="width: 0%; height:100%"></div>
+            </span>
+        </span>
+        <span class="${pName}gems">
+            ${actionsString}
+            ${limitedsString}
+            ${anytimesString}
+        </span>
+    </div>`);
+    $('.tooltipped').tooltip();
+    updateStamina(pName);
+    updateGold(pName);
+
+    for (let i = 0; i < $(`.${pName}gem`).length; i++) {
+        $(`.${pName}gem`)[i].pName = pName;
+    }
+    $(`.${pName}gem`).mousedown(clickGem);
+
+    for (let i = 0; i < $(`.${pName}anytime`).length; i++) {
+        $(`.${pName}anytime`)[i].pName = pName;
+    }
+    $(`.${pName}anytime`).mousedown(clickAnytime);
+
+    $(`.${current.name}Gold`).mousedown(function (e) {
+        if(e.which === 2){
+            // this.remove();
+            // chars.splice(chars.indexOf(this), 1);
+        } else if(e.which === 3){
+
+
+            if(holding.indexOf(16) !== -1){
+                current.gold += 50;
+            }else if(holding.indexOf(17) !== -1) {
+                console.log("ctrlclik");
+                current.gold += 5;
+            }else{
+                current.gold += 10;
+            }
+        }else{
+
+
+            if(holding.indexOf(16) !== -1){
+                current.gold -= 50;
+            }else if(holding.indexOf(17) !== -1) {
+                current.gold -= 5;
+            }else{
+                current.gold -= 10;
+            }
+        }
+
+        updateGold(current.name);
+    });
+
+    $(`.${current.name}Stamina`).mousedown(function (e) {
+        if(e.which === 2){
+            current.stamina = current.maxstamina;
+        } else if(e.which === 1){
+
+
+            if(holding.indexOf(16) !== -1){
+                current.stamina -= 10;
+            }else if(holding.indexOf(17) !== -1) {
+                console.log("ctrlclik");
+                current.stamina -= 5;
+            }else{
+                current.stamina -= 1;
+            }
+        }else{
+
+
+            if(holding.indexOf(16) !== -1){
+                current.stamina += 10;
+            }else if(holding.indexOf(17) !== -1) {
+                console.log("ctrlclik");
+                current.stamina += 5;
+            }else{
+                current.stamina += 1;
+            }
+        }
+
+        updateStamina(current.name);
+    });
 }
 
 let deleteLimited = function (current, limited) {
@@ -90,201 +226,152 @@ let deleteLimited = function (current, limited) {
     current.limiteds.splice(index, 1);
     $(`#limited${limited}`).remove();
     $('#limiteds').toggle(current.limiteds.length !== 0);
-    updateChars();
+    //updateChars();
 }
 
-
-let updateChars = () => {
-    "use strict";
-    $('.tooltipped').tooltip('remove');
-    $(".main").html("");
-    for(let i = 0; i < chars.length; i++){
-        let color;
-        let stamColor;
-        let current = chars[i];
-
-        if(current.gold <= 0){
-            color = "red"
-        }else if(current.gold > 0 && current.gold < 500){
-            color = "green"
-        }else if(current.gold >= 500 && current.gold <= 1000){
-            color = "purple"
-        }else if(current.gold > 1000){
-            color = "orange"
+let updateStamina = function (pName) {
+    let current;
+    for(let i = 0; i < chars.length; i++) {
+        if(chars[i].name === pName){
+            current = chars[i];
         }
-
-        if(current.stamina <= 0){
-            stamColor = "red"
-        }else if(current.stamina > 0 && current.stamina < 10){
-            stamColor = "yellow"
-        }else if(current.stamina > current.maxstamina) {
-            stamColor = "purple";
-            $.notify(`Stamina of player ${current.name} is above their max stamina, which is ${current.maxstamina}. Press S to set maximum stamina`, "info");
-        }
-            else{
-            stamColor = "green"
-        }
-
-
-
-        let uid = "a" + Math.round(Math.random()* 10000000000);
-               let uidAnytime = "a" + Math.round(Math.random()* 10000000000);
-        let actionsString = ``;
-        for(let j = 0; j < current.actionsLeft.length; j++){
-            console.log(current.actionsLeft[j]);
-            actionsString = actionsString +  `<img class="gem ${uid} tooltipped" id="${current.actionsLeft[j]}" src="./fonts/${current.actionsLeft[j]}.png" data-position="top" data-delay="0" data-tooltip="${current.actionsLeft[j]}">`;
-        }
-        let anytimesString = ``;
-        for(let pizza = 0; pizza < current.anytimesLeft; pizza++){
-                            anytimesString += `<img class="anytime ${uidAnytime} tooltipped" src="./fonts/anytime.png" data-position="top" data-delay="0" data-tooltip="Anytime">`;
-        }
-
-
-        let limitedsString = ``;
-        let UIDS = [];
-        for(let o = 0; o < current.limiteds.length; o++){
-            let cur = current.limiteds[o];
-            if(!cur.used){
-                limitedsString += `<img class="gem ${cur.UUID} tooltipped" src="./fonts/once.png" data-position="top" data-delay="0" data-tooltip="${cur.hover}">`;
-                UIDS.push(cur.UUID);
-            }
-        }
-
-        let staminaPercentage = current.stamina / current.maxstamina * 100;
-
-
-
-        $(".main").append(`<div class="${current.name} player">
-            <h4 onclick="openCharModal('${current.name}')"><span class="playerName">${current.name}</span></h4>
-            <span style="width: 200px;display:inline-block">
-                <h5><span class="${current.name}Gold ${color}-text">${current.gold}g</span></h5><br>
-                                                <h6 style="display: inline-block">${current.stamina} Stamina</h6>
-                <span class="${current.name}Stamina grey lighten-1" style="width: 200px; height: 20px; display: inline-block; overflow: hidden">
-                    <div class="${stamColor}" style="width: ${staminaPercentage}%; height:100%"></div>
-                </span>
-            </span>
-            <span style="display:inline-block">
-                ${actionsString}
-                ${limitedsString}
-                ${anytimesString}
-            </span>
-        </div>`);
-        $('.tooltipped').tooltip();
-
-
-        for(let Ui = 0 ; Ui < UIDS.length; Ui++){
-            $(`.${UIDS[Ui]}`).mousedown(function (e) {
-                if(e.which === 1){
-                    for(let jesus = 0; jesus < current.limiteds.length; jesus++){
-                        if(current.limiteds[jesus].UUID === `${UIDS[Ui]}`){
-                            current.limiteds[jesus].used = true;
-                        }
-                    }
-                }
-
-                updateChars();
-            });
-        }
-
-
-
-        $(`.${uid}`).mousedown(function (e) {
-            // alert("Clicked?");
-            if(e.which === 1){
-                current.actionsLeft.splice(current.actionsLeft.indexOf(this.id), 1);
-            }else if(e.which === 2){
-
-            }else{
-                current.actionsLeft.push(this.id);
-            }
-            updateChars();
-        });
-        $(`.${uidAnytime}`).mousedown(function (e) {
-            if(e.which === 1){
-                current.anytimesLeft--;
-            }else if(e.which === 2){
-                current.maxAnytimes++;
-                current.anytimesLeft++;
-            }
-            updateChars();
-        });
-
-        $(".gem").css("height", $(".playerName").height()*1.5);
-        $(".gem").css("width", $(".playerName").height()*1.5);
-        $(".anytime").css("height", $(".playerName").height()*1.5);
-        $(".anytime").css("width", $(".playerName").height()*1.5);
-        // $(".gem").css("margin-top", $(".playerName").height() + "px");
-
-        $(`.${current.name}Gold`).mousedown(function (e) {
-            if(e.which === 2){
-                // this.remove();
-                // chars.splice(chars.indexOf(this), 1);
-            } else if(e.which === 3){
-
-
-                if(holding.indexOf(16) !== -1){
-                    current.gold += 50;
-                }else if(holding.indexOf(17) !== -1) {
-                    console.log("ctrlclik");
-                    current.gold += 5;
-                }else{
-                    current.gold += 10;
-                }
-            }else{
-
-
-                if(holding.indexOf(16) !== -1){
-                    current.gold -= 50;
-                }else if(holding.indexOf(17) !== -1) {
-                    current.gold -= 5;
-                }else{
-                    current.gold -= 10;
-                }
-            }
-
-            updateChars();
-        });
-
-        $(`.${current.name}Stamina`).mousedown(function (e) {
-            if(e.which === 2){
-                current.stamina = current.maxstamina;
-            } else if(e.which === 1){
-
-
-                if(holding.indexOf(16) !== -1){
-                    current.stamina -= 10;
-                }else if(holding.indexOf(17) !== -1) {
-                    console.log("ctrlclik");
-                    current.stamina -= 5;
-                }else{
-                    current.stamina -= 1;
-                }
-            }else{
-
-
-                if(holding.indexOf(16) !== -1){
-                    current.stamina += 10;
-                }else if(holding.indexOf(17) !== -1) {
-                    console.log("ctrlclik");
-                    current.stamina += 5;
-                }else{
-                    current.stamina += 1;
-                }
-            }
-
-            updateChars();
-        });
-
-
-        if(current.gold > 0){
-            console.log(`${current.name}Gold`);
-            $(`.${current.name}Gold`).addClass("text-green");
-            console.log("wut")
-        }
-
     }
-};
+    $(`.${current.name}Stamina`).children().stop().animate({
+        width: current.stamina / current.maxstamina * 100 + '%'
+    });
+    let stamColor;
+    if(current.stamina <= 0){
+        stamColor = "red"
+    }else if(current.stamina > current.maxstamina) {
+        stamColor = "purple";
+        $.notify(`Stamina of player ${current.name} is above their max stamina, which is ${current.maxstamina}. Press player name to set maximum stamina`, "info");
+    }
+    else if(current.stamina > 0 && current.stamina < 10){
+        stamColor = "yellow"
+    }else{
+        stamColor = "green"
+    }
+    $(`.${current.name}Stamina`).children().attr('class', stamColor);
+    $(`.${current.name}StaminaLabel`).html(`${current.stamina} Stamina`);
+}
 
+let updateGold = function (pName) {
+    let current;
+    for(let i = 0; i < chars.length; i++) {
+        if(chars[i].name === pName){
+            current = chars[i];
+        }
+    }
+    let color;
+    if(current.gold <= 0){
+        color = "red"
+    }else if(current.gold > 0 && current.gold < 500){
+        color = "green"
+    }else if(current.gold >= 500 && current.gold <= 1000){
+        color = "purple"
+    }else if(current.gold > 1000){
+        color = "orange"
+    }
+    $(`.${current.name}Gold`).attr('class', `${current.name}Gold gold ${color}-text`);
+    $(`.${current.name}Gold`).html(`${current.gold}g`);
+}
+
+let clickGem = function (e) {
+    let current;
+    for(let i = 0; i < chars.length; i++) {
+        if(chars[i].name === e.target.pName){
+            current = chars[i];
+        }
+    }
+    if(e.which === 1){
+        $(this).animate({
+            width: 0,
+            height: 0,
+            margin: "50px 0"
+        }, 200, "swing", function () {
+            $(this).hide();
+        });
+    }else if(e.which === 3){
+        addGem(current, $(this)[0].id);
+    }
+}
+
+let clickAnytime = function (e) {
+    let current;
+    for(let i = 0; i < chars.length; i++) {
+        if(chars[i].name === e.target.pName){
+            current = chars[i];
+        }
+    }
+    if(e.which === 1){
+        current.anytimesLeft--;
+        //$(this).animate({
+          //  scale: "0"
+        //});
+        $(this).animate({
+            width: 0,
+            height: 0,
+            margin: "50px 0"
+        }, 200, "swing", function () {
+            $(this).hide();
+        });
+    }else if(e.which === 2){
+        addAnytime(current);
+    }
+}
+
+let removeAnytime = function (player) {
+    player.maxAnytimes--;
+    $(`.${player.name}anytime${player.maxAnytimes}`).animate({
+        width: 0,
+        height: 0,
+        margin: "50px 0"
+    }, 200, function () {
+        $(this).remove();    
+    });
+    player.anytimesLeft = Math.max(player.anytimesLeft, player.maxAnytimes);
+}
+
+let addGem = function (player, id) {
+    let gem = $(`<img class="gem ${player.name}gem ${player.name}gem${player.numActions} tooltipped" id="${id}" style="width: 0; height: 0; margin: 50px 0" src="./fonts/${id}.png" data-position="top" data-delay="0" data-tooltip="${id}">`);
+    gem[0].pName = player.name;
+    gem.mousedown(clickGem);
+    $(`.${player.name}gem${player.numActions - 1}`).after(gem);
+    restoreGem(player, player.numActions, id);
+    player.numActions++;
+    $('.tooltipped').tooltip();
+}
+
+let addAnytime = function (player) {
+    let anytime = $(`<img class="anytime ${player.name}anytime ${player.name}anytime${player.maxAnytimes} tooltipped" style="width: 0; height: 0; margin: 50px 0" src="./fonts/anytime.png" data-position="top" data-delay="0" data-tooltip="Anytime">`);
+    anytime[0].pName = player.name;
+    anytime.mousedown(clickAnytime);
+    $(`.${player.name}gems`).append(anytime);
+    restoreAnytime(player.name, player.maxAnytimes);
+    player.maxAnytimes++;
+    player.anytimesLeft++;
+    $('.tooltipped').tooltip();
+}
+
+let addLimited = function (player, limited) {
+    let gem = $(`<img class="gem ${player.name}gem tooltipped" id="${limited.UUID}" style="width: 0; height: 0; margin: 50px 0" src="./fonts/once.png" data-position="top" data-delay="0" data-tooltip="${limited.hover}">`);
+    gem[0].pName = player.name;
+    gem.mousedown(clickGem);
+    $(`.${player.name}gem${player.numActions - 1}`).after(gem);
+    restoreLimited(player, limited);
+    $('.tooltipped').tooltip();
+}
+
+let removeGem = function (player, gem) {
+    $(`.${player.name}gem${gem}`).animate({
+        width: 0,
+        height: 0,
+        margin: "50px 0"
+    }, 200, function () {
+        $(this).remove();    
+    });
+    player.numActions--;
+}
 
 $(document).ready(function () {
     $("#addChar").submit(function () {
@@ -292,7 +379,7 @@ $(document).ready(function () {
         if(name !== undefined && name !== "" && name !== null){
             chars.push(new player(name));
 
-            updateChars();
+            addPlayer(name);
             $('#add_player_modal').modal('close');
             $('#player_name').val('');
             $('#open_add_player_modal').removeClass('pulse');

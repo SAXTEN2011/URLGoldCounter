@@ -29,7 +29,7 @@ function modalSetMaxStam(playername){
     }
     if(!isNaN(parseInt($("#setMaxStamina").val())))
         current.maxstamina = parseInt($("#setMaxStamina").val());
-    updateChars();
+    updateStamina(playername);
 
     $("#setMaxStamina").attr('placeholder', `Current: ${current.maxstamina}`);
     $("#setMaxStamina").val('');
@@ -47,7 +47,7 @@ function modalSetGold(playername){
     }
     if(!isNaN(parseInt($("#setGold").val())))
         current.gold = parseInt($("#setGold").val());
-    updateChars();
+    updateGold(playername);
 
     $("#setGold").attr('placeholder', `Current: ${current.gold}`);
     $("#setGold").val('');
@@ -62,9 +62,18 @@ function modalSetAnytimes(playername){
             break;
         }
     }
-    if(!isNaN(parseInt($("#setAnytimes").val())))
-        current.maxAnytimes = parseInt($("#setAnytimes").val());
-    updateChars();
+    if(!isNaN(parseInt($("#setAnytimes").val()))) {
+        let oldMax = current.maxAnytimes;
+        let newMax = parseInt($("#setAnytimes").val());
+        // if reducing number, delete some anytimes
+        for (let i = 0; i < oldMax - newMax; i++) {
+            removeAnytime(current);
+        }
+        // if increasing number, add some anytimes
+        for (let i = 0; i < newMax - oldMax; i++) {
+            addAnytime(current);
+        }
+    }
 
     $("#setAnytimes").attr('placeholder', `Current: ${current.maxAnytimes}`);
     $("#setAnytimes").val('');
@@ -77,16 +86,18 @@ function modalAddLimited(playername) {
             current = chars[p];
         }
     }
-    var limited = $('#addLimited').val();
-    if(limited !== "" && limited !== undefined && limited !== null){
-        current.limiteds.push(new Limited(limited));
+    var limitedText = $('#addLimited').val();
+    if(limitedText !== "" && limitedText !== undefined && limitedText !== null){
+        let limited = new Limited(limitedText);
+        console.log(limited);
+        current.limiteds.push(limited);
         let limiteds = $('#limiteds');
         limiteds.toggle(true);
-        limiteds.append(`<li id="limited${limited}" class="collection-item"><div>${limited}<a id="delete${limited}" class="secondary-content"><i class="material-icons">delete</i></a></div></li>`)
-        $(`#delete${limited}`).click(function () {
-            deleteLimited(current, limited);
+        limiteds.append(`<li id="limited${limited.hover}" class="collection-item"><div>${limited.hover}<a id="delete${limited.hover}" class="secondary-content"><i class="material-icons">delete</i></a></div></li>`)
+        $(`#delete${limited.hover}`).click(function () {
+            deleteLimited(current, limited.hover);
         });
         $("#addLimited").val('');
-        updateChars();
+        addLimited(current, limited);
     }
 }

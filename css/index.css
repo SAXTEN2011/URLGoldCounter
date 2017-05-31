@@ -8,6 +8,11 @@ html{
 a {
     cursor: pointer;
 }
+.main {
+    overflow: hidden;
+    position: absolute;
+    width: 100%;
+}
 .titleBanner{
     margin-top: 0;
     display: flex;
@@ -22,6 +27,7 @@ a {
     margin: 0 auto;
     margin-bottom: 20px;
     padding-bottom: 20px;
+    position: relative;
     width: 90%;
 }
 .player:not(:last-child){
@@ -31,8 +37,8 @@ a {
     word-break: break-all;
 }
 .anytime, .gem{
-    height: 100px !important;
-    width: 100px !important;
+    height: 100px;
+    width: 100px;
 }
 .waves-effect.waves-purple-darken-4 .waves-ripple {
     background-color: #4a148c;
@@ -40,4 +46,10 @@ a {
 .btn-floating img {
     height: auto;
     width: 40px;
+}
+.gold {
+    -webkit-user-select: none; /* Chrome/Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+ */
+    user-select: none;
 }
