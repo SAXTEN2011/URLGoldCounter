@@ -2,7 +2,7 @@
  * Created by Aaron on 4/30/2017.
  */
 
-let chars = [];
+chars = [];
 
 let anytimesString;
 
@@ -70,7 +70,7 @@ let restoreGem = function (current, gem, name) {
         height: "100px",
         margin: 0
     }, 400);
-}
+};
 
 let restoreAnytime = function (pName, anytime) {
     let current;
@@ -306,7 +306,7 @@ let clickAnytime = function (e) {
     if(e.which === 1){
         current.anytimesLeft--;
         //$(this).animate({
-          //  scale: "0"
+        //  scale: "0"
         //});
         $(this).animate({
             width: 0,
@@ -327,7 +327,7 @@ let removeAnytime = function (player) {
         height: 0,
         margin: "50px 0"
     }, 200, function () {
-        $(this).remove();    
+        $(this).remove();
     });
     player.anytimesLeft = Math.max(player.anytimesLeft, player.maxAnytimes);
 }
@@ -368,17 +368,37 @@ let removeGem = function (player, gem) {
         height: 0,
         margin: "50px 0"
     }, 200, function () {
-        $(this).remove();    
+        $(this).remove();
     });
     player.numActions--;
 }
 
+
+let saveAllChars = function(){
+    toSave = chars;
+    setSaveAllChars();
+};
+
+
 $(document).ready(function () {
+    if(loadedChars.length !== 0){
+        for(let k = 0; k < loadedChars[0].length; k++){
+            let converted = player.convertObjectToPlayer(loadedChars[0][k]);
+            console.log(converted);
+            chars.push(converted);
+
+            addPlayer(loadedChars[0][k].name);
+        }
+    }
+
+    toSave = [];
+    localStorage.setItem("chars", toSave);
+
+
     $("#addChar").submit(function () {
         let name = $('#player_name').val();
         if(name !== undefined && name !== "" && name !== null){
             chars.push(new player(name));
-
             addPlayer(name);
             $('#add_player_modal').modal('close');
             $('#player_name').val('');
@@ -388,12 +408,9 @@ $(document).ready(function () {
     });
 
 
-
-
-
-
     // Prepare Modals
     $('#help_modal').modal();
+    $('#loadCharsModal').modal();
     $('#charModal').modal({
         complete: function() {
             $('.maxStaminaInput').val('');
@@ -437,5 +454,12 @@ $(document).ready(function () {
         if(e.keyCode === 76){
             resetCombat();
         }
-    })
+
+        if(e.keyCode === 83 && holding.indexOf(17) !== -1){
+            e.preventDefault();
+            console.log("saved");
+            saveAllChars();
+        }
+
+    });
 });

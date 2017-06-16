@@ -16,6 +16,19 @@ class player{
             this.gold += amt;
         }
     }
+
+    static convertObjectToPlayer(obj){
+        let gen = new player(obj.name);
+        gen.gold = obj.gold;
+        gen.limiteds = obj.limiteds;
+        gen.anytimesLeft = obj.anytimesLeft;
+        gen.maxAnytimes = obj.maxAnytimes;
+        gen.baseActions = obj.baseActions;
+        gen.numActions = obj.numActions;
+        gen.stamina = obj.stamina;
+        gen.maxstamina = obj.maxstamina;
+        return gen;
+    }
 }
 
 

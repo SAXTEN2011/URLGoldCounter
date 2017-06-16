@@ -38,6 +38,7 @@
     <script type="text/javascript" src="js/holdingHandler.js"></script>
     <script type="text/javascript" src="js/char.js"></script>
     <script type="text/javascript" src="js/charModal.js"></script>
+    <script type="text/javascript" src="js/saveChar.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
 
 </head>
@@ -52,10 +53,10 @@
     </a>
     <ul>
         <li><a href="javascript:resetCombat();" class="btn-floating green tooltipped" data-position="left" data-delay="0" data-tooltip="Reset Combat">
-            <img src="fonts/combat.png"></img>
+            <img src="fonts/combat.png"/>
         </a></li>
         <li><a href="javascript:resetRound();" class="btn-floating yellow tooltipped" data-position="left" data-delay="0" data-tooltip="Reset Round">
-        <img src="fonts/round.png" style="margin-top: 4px;"></img>
+            <img src="fonts/round.png" style="margin-top: 4px;"/>
         </a></li>
     </ul>
 </div>
@@ -99,13 +100,31 @@
         <h5>Limited Controls</h5>
         Add limiteds in the player menu. <br/>
         Press L to reset limiteds. <br/>
-        Hover over a limited gem to see the card it's attached to.
+        Hover over a limited gem to see the card it's attached to.<br/>
+
+        <h5>Saving Controls</h5>
+        Save single player in player menu<br/>
+        Save entire party in player menu<br/>
+        Press ctrl+s to save entire party<br/>
 
         <hr>
         <h4>About this project</h4>
         This is an open source project to assist people running campaigns using the <a href="https://www.urealms.com/">urealms</a> roleplaying engine. You can check out the source code and contribute to the project on <a href="https://github.com/SAXTEN2011/URLGoldCounter">github</a>.
     </div>
 </div>
+
+<div id="loadCharsModal" class="modal">
+    <div class="modal-content">
+        <h4>Saved Characters Found</h4>
+        <p>Load Characters?</p>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Yes</a>
+        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">No</a>
+    </div>
+</div>
+
+
 
 <div id="charModal" class="modal">
     <div class="modal-content defaultState">
@@ -137,7 +156,9 @@
                 <label for="addLimited">Add Limited</label>
             </div>
         </form>
-        <a class="waves-effect waves-light btn rAnytime" onclick="restoreAnytime($('.modalPlayerName').html())">Restore Single Anytime</a><br>
+        <a class="waves-effect waves-light btn rAnytime" onclick="restoreAnytime($('.modalPlayerName').html())">Restore Single Anytime</a>
+        <a class="waves-effect waves-light btn rAnytime" onclick="saveChar($('.modalPlayerName').html())">Save This Character</a>
+        <a class="waves-effect waves-light btn rAnytime" onclick="saveAllChars()">Save All Characters</a><br>
     </div>
     <div class="modal-footer">
         <a href="#!" class="modal-action modal-close waves-effect waves-purple darken-4 btn-flat" onclick="deletePlayer($('.modalPlayerName').html())">Delete Player</a>
