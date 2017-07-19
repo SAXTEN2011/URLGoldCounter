@@ -395,8 +395,9 @@ $(document).ready(function () {
     localStorage.setItem("chars", toSave);
 
 
-    $("#addChar").submit(function () {
-        let name = $('#player_name').val();
+    $("#addChar").submit(function (e) {
+        e.preventDefault();
+        let name = $('#player_name').val().replaceAllChar(" ", "_");
         if(name !== undefined && name !== "" && name !== null){
             chars.push(new player(name));
             addPlayer(name);

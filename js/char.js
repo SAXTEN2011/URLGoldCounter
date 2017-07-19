@@ -1,10 +1,23 @@
 /**
  * Created by Aaron on 4/30/2017.
  */
+
+String.prototype.replaceAllChar = function(toReplace, replaceWith){
+    let input = this.toString().split("");
+    for(let i = 0; i < input.length; i++){
+        if(input[i] === toReplace){
+            input[i] = replaceWith
+        }
+    }
+    return input.join("");
+};
+
+
 class player{
     constructor(name){
         this.gold = 0;
-        this.name = name;
+        this.name = name.replace(" ", "_");
+        this.displayname = name.replaceAllChar("_", " ");
         this.limiteds = [];
         this.anytimesLeft = 3;
         this.maxAnytimes = 3;
