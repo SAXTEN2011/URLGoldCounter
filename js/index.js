@@ -408,9 +408,38 @@ $(document).ready(function () {
         return false;
     });
 
+    $("#settingsIcon").click(function () {
+        $('#settings_modal').modal("open");
+    });
+    $(document).keydown(function (e) {
+        if(e.keyCode === 79 && !$('.modal').hasClass('open')){
+            let state = ($('#settings_modal').hasClass('open')) ? "close" : "open";
+            $('#settings_modal').modal(state);
+        }
+    });
+    $(".overlayMode").click(function () {
+        if($(".overlayMode").prop("checked")){
+            let colorCode = "#000000";
+            colorCode = ($("#chromaKeyColor").val() === "") ? colorCode : $("#chromaKeyColor").val();
+            $(".titleBanner").css("display", "none");
+            $(".main").prepend('<a href=\"#settings_modal\" style=\"width: 24px;margin: 10px;float: right;\"><i class=\"material-icons tempsettings\" id=\"settingsIcon\" >settings</i></a>');
+            $("html").css("background-image", "");
+            colorCode = colorCode.replaceAllChar("#", "");
+            // console.log(colorCode)
+            $("html").css("background-color", "#" + colorCode);
+        }else{
+            $(".titleBanner").css("display", "flex");
+            $(".tempsettings").remove();
+            $("html").css("background-color", "");
+            $("html").css("background-image", "../fonts/Background.jpg");
+
+        }
+    });
+
 
     // Prepare Modals
     $('#help_modal').modal();
+    $('#settings_modal').modal();
     $('#loadCharsModal').modal();
     $('#charModal').modal({
         complete: function() {
@@ -442,7 +471,7 @@ $(document).ready(function () {
         if ($('.modal.open').not('#help_modal').length !== 0)
             return;
 
-        if(e.keyCode === 67){
+        if(e.keyCode === 67 && $("#addchar").hasClass("open")){
             if ($('#help_modal').hasClass('open'))
                 $('#help_modal').modal('close');
             else

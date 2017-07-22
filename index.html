@@ -44,8 +44,13 @@
 </head>
 <body>
 <div class="card horizontal purple darken-3 titleBanner">
+    <!--Alright, this is pretty jank. The idea is that justify-content: space-between evenly spaces each item, so having the title and info icon in the same div, and having an item on either side, not displayed and displayed, will cause the settings icon to align right, and the text to align center-->
+    <i class="material-icons" style="width: 24px;margin: 10px;">thisdoesntexist</i>
+    <div class="sticker" style="display: inherit; justify-content: center">
     <h1 class="white-text text-darken-2">URealms Player Tracker</h1>
     <a href="#help_modal" style="width: 24px;margin: 10px;"><i class="material-icons">info_outline</i></a>
+    </div>
+    <a href="#settings_modal" style="width: 24px;margin: 10px;"><i class="material-icons" id="settingsIcon">settings</i></a>
 </div>
 <div class="fixed-action-btn">
     <a id="open_add_player_modal" href="#add_player_modal" class="btn-floating btn-large purple darken-3 pulse tooltipped" data-position="left" data-delay="0" data-tooltip="Add Player">
@@ -121,6 +126,25 @@
     <div class="modal-footer">
         <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Yes</a>
         <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">No</a>
+    </div>
+</div>
+<div id="settings_modal" class="modal">
+    <div class="modal-content">
+        <h4>Options</h4>
+        <br>
+        <!-- Switch -->
+        <h6>Overlay Mode</h6>
+        <div class="switch">
+            <label>
+                Off
+                <input type="checkbox" class="overlayMode">
+                <span class="lever"></span>
+                On
+            </label>
+            <div class="input-field col s6" >
+                <input placeholder="Chroma Key Color - Default #000000" id="chromaKeyColor" type="text" class="validate">
+            </div>
+        </div>
     </div>
 </div>
 
